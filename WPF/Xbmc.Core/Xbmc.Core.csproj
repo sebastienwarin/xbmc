@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9BE03911-415B-4044-B2D3-E8310E4E7D74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xbmc.Core</RootNamespace>
+    <AssemblyName>Xbmc.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Xbmc.Core\packages\Newtonsoft.Json.5.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\Parameters.cs" />
+    <Compile Include="Base\RandomNumber.cs" />
+    <Compile Include="Commands\Addons.cs" />
+    <Compile Include="Commands\Application.cs" />
+    <Compile Include="Commands\AudioLibrary.cs" />
+    <Compile Include="Commands\CommandCollection.cs" />
+    <Compile Include="Commands\Files.cs" />
+    <Compile Include="Commands\GlobalTypes.cs" />
+    <Compile Include="Commands\Gui.cs" />
+    <Compile Include="Commands\Input.cs" />
+    <Compile Include="Commands\JsonRpc.cs" />
+    <Compile Include="Commands\Player.cs" />
+    <Compile Include="Commands\Playlist.cs" />
+    <Compile Include="Commands\Pvr.cs" />
+    <Compile Include="Commands\System.cs" />
+    <Compile Include="Commands\VideoLibrary.cs" />
+    <Compile Include="Commands\Xbmc.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="Enum.cs" />
+    <Compile Include="Model\Audio.cs" />
+    <Compile Include="Model\Global.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\Library.cs" />
+    <Compile Include="Model\List.cs" />
+    <Compile Include="Model\Media.cs" />
+    <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Playlist.cs" />
+    <Compile Include="Model\PrepareDownload.cs" />
+    <Compile Include="Model\System.cs" />
+    <Compile Include="Model\Version.cs" />
+    <Compile Include="Model\Video.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\MethodMessage.cs" />
+    <Compile Include="Requests\Parameters.cs" />
+    <Compile Include="Requests\Request.cs" />
+    <Compile Include="Requests\RequestException.cs" />
+    <Compile Include="Responses\ApplicationPropertiesResponseMessage.cs" />
+    <Compile Include="Responses\AudioVideoResponse.cs" />
+    <Compile Include="Responses\BasicResponseMessage.cs" />
+    <Compile Include="Responses\GetItemResponse.cs" />
+    <Compile Include="Responses\ListResponseMessage.cs" />
+    <Compile Include="Responses\ResponseMessageBase.cs" />
+    <Compile Include="Responses\SingleValueResponseMessage.cs" />
+    <Compile Include="Settings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
