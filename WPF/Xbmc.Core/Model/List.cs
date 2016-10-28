@@ -87,7 +87,7 @@ namespace Xbmc.Core.Model
         public string ProductionCode { get; set; }
 
         [JsonProperty(PropertyName = "cast")]
-        public VideoCast Cast { get; set; }
+        public VideoCast[] Cast { get; set; }
 
         [JsonProperty(PropertyName = "votes")]
         public string Votes { get; set; }

@@ -1,4 +1,6 @@
-﻿using Xbmc.Core.Requests;
+﻿using System.Threading.Tasks;
+using Xbmc.Core.Requests;
+using Xbmc.Core.Responses;
 
 namespace Xbmc.Core.Commands
 {
@@ -11,5 +13,24 @@ namespace Xbmc.Core.Commands
             _request = new Request(xbmc);
         }
 
+
+        /// <summary>Go to previous/next/specific item in the playlist.</summary>
+        public async Task<string> ShowNotification(string title, string message, string image = "", int displaytime = 5000)
+        {
+            var method = new ParameteredMethodMessage<ShowNotificationParameters>
+            {
+                Method = "GUI.ShowNotification",
+                Parameters = new ShowNotificationParameters
+                {
+                    DisplayTime = displaytime,
+                    Message = message,
+                    Title = title,
+                    Image = image
+                }
+            };
+
+            var result = await _request.SendRequestAsync<BasicResponseMessage<string>>(method);
+            return result.Result;
+        }
     }
 }

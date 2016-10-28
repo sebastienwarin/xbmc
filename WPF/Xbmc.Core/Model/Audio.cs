@@ -112,7 +112,7 @@ namespace Xbmc.Core.Model
         public int Year { get; set; }
 
         [JsonProperty(PropertyName = "rating")]
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         [JsonProperty(PropertyName = "artistid")]
         public int[] ArtistId { get; set; }

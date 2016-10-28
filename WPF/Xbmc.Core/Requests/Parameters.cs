@@ -5,6 +5,19 @@ using Xbmc.Core.Model;
 namespace Xbmc.Core.Requests
 {
     [JsonObject]
+    public class ShowNotificationParameters : Parameters
+    {
+        [JsonProperty(PropertyName = "title")]
+        public string Title { get; set; }
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
+        [JsonProperty(PropertyName = "image")]
+        public string Image { get; set; }
+        [JsonProperty(PropertyName = "displaytime")]
+        public int DisplayTime { get; set; }
+    }
+
+    [JsonObject]
     public class PropertiesParameters : Parameters
     {
         [JsonProperty(PropertyName = "properties")]
@@ -46,7 +59,7 @@ namespace Xbmc.Core.Requests
     {
         [JsonProperty(PropertyName = "item")]
         public T Item { get; set; }
-        
+
         [JsonProperty(PropertyName = "options")]
         public OpenOptions Options { get; set; }
     }

@@ -38,6 +38,7 @@ namespace Xbmc.Core.Requests
 
             var client = new WebClient
                              {
+                                 Encoding = System.Text.Encoding.UTF8,
                                  Credentials = new NetworkCredential(_xbmc.Login, _xbmc.Password)
                              };
             string resultStr = await UploadStringAsync(client, _xbmc.BaseUrl, serialization);
