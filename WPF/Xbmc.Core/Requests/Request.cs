@@ -9,6 +9,7 @@ namespace Xbmc.Core.Requests
 {
     internal sealed class Request
     {
+        private const int DEFAULT_TIMEOUT = 10000; //ms
         private readonly Connection _xbmc;
 
         internal Request(Connection xbmc)
@@ -46,16 +47,29 @@ namespace Xbmc.Core.Requests
                 Credentials = new NetworkCredential(_xbmc.Login, _xbmc.Password)
             })
             {
-                string resultStr = await client.UploadStringTaskAsync(_xbmc.BaseUrl, serialization);
-                var result = JsonConvert.DeserializeObject<T>(resultStr);
+                var requestTask = client.UploadStringTaskAsync(_xbmc.BaseUrl, serialization);
+                await Task.WhenAny(requestTask, Task.Delay(DEFAULT_TIMEOUT));
+                if (requestTask.IsCompleted)
+                {
+                    if (requestTask.IsFaulted)
+                    {
+                        throw requestTask.Exception.GetBaseException();
+                    }
 
-                if (result.Id != methodMessage.Id)
-                    throw new RequestException(methodMessage.Method, "The Id received does not match the one that was sent.");
+                    var result = JsonConvert.DeserializeObject<T>(requestTask.Result);
 
-                if (result.Error != null)
-                    throw new RequestException(methodMessage.Method, result.Error.ToString());
+                    if (result.Id != methodMessage.Id)
+                        throw new RequestException(methodMessage.Method, "The Id received does not match the one that was sent.");
 
-                return result;
+                    if (result.Error != null)
+                        throw new RequestException(methodMessage.Method, result.Error.ToString());
+
+                    return result;
+                }
+                else
+                {
+                    throw new WebException("Request timeout", WebExceptionStatus.Timeout);
+                }
             }           
         }
     }
