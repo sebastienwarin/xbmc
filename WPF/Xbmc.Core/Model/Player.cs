@@ -36,6 +36,13 @@ namespace Xbmc.Core.Model
     }
 
     [JsonObject]
+    public sealed class PlayerSpeed
+    {
+        [JsonProperty(PropertyName = "speed")]
+        public int Speed { get; set; }
+    }
+
+    [JsonObject]
     public sealed class PlayerPropertyValue
     {
         [JsonProperty(PropertyName = "canrepeat")]

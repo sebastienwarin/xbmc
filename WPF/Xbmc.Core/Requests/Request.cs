@@ -20,9 +20,9 @@ namespace Xbmc.Core.Requests
             where T : ResponseMessageBase
         {
             var methodMessage = new MethodMessage
-                                    {
-                                        Method = methodName
-                                    };
+            {
+                Method = methodName
+            };
 
             return await SendRequestAsync<T>(methodMessage);
         }
@@ -34,42 +34,29 @@ namespace Xbmc.Core.Requests
             methodMessage.Id = id;
             methodMessage.JsonRpc = "2.0";
 
-            string serialization = JsonConvert.SerializeObject(methodMessage, Formatting.None);
-
-            var client = new WebClient
-                             {
-                                 Encoding = System.Text.Encoding.UTF8,
-                                 Credentials = new NetworkCredential(_xbmc.Login, _xbmc.Password)
-                             };
-            string resultStr = await UploadStringAsync(client, _xbmc.BaseUrl, serialization);
-
-            var result = JsonConvert.DeserializeObject<T>(resultStr);
-
-            if (result.Id != methodMessage.Id)
-                throw new RequestException(methodMessage.Method, "The Id received does not match the one that was sent.");
-
-            if (result.Error != null)
-                throw new RequestException(methodMessage.Method, result.Error.ToString());
-
-            return result;
-        }
-
-        private static Task<string> UploadStringAsync(WebClient client, string url, string data)
-        {
-            var tcs = new TaskCompletionSource<string>();
-
-            client.UploadStringCompleted +=
-                (s, e) =>
+            string serialization = JsonConvert.SerializeObject(methodMessage, Formatting.None,
+                new JsonSerializerSettings
                 {
-                    if (e.Error == null)
-                        tcs.SetResult(e.Result);
-                    else
-                        tcs.SetException(e.Error);
-                };
+                    NullValueHandling = NullValueHandling.Ignore
+                });
 
-            client.UploadStringAsync(new Uri(url), data);
+            using (var client = new WebClient()
+            {
+                Encoding = System.Text.Encoding.UTF8,
+                Credentials = new NetworkCredential(_xbmc.Login, _xbmc.Password)
+            })
+            {
+                string resultStr = await client.UploadStringTaskAsync(_xbmc.BaseUrl, serialization);
+                var result = JsonConvert.DeserializeObject<T>(resultStr);
 
-            return tcs.Task;
+                if (result.Id != methodMessage.Id)
+                    throw new RequestException(methodMessage.Method, "The Id received does not match the one that was sent.");
+
+                if (result.Error != null)
+                    throw new RequestException(methodMessage.Method, result.Error.ToString());
+
+                return result;
+            }           
         }
     }
 }

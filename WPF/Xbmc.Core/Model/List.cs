@@ -102,7 +102,10 @@ namespace Xbmc.Core.Model
         public int AlbumId { get; set; }
 
         [JsonProperty(PropertyName = "musicbrainzartistid")]
-        public string MusicBrainzArtistId { get; set; }
+        public string[] MusicBrainzArtistId { get; set; }
+
+        [JsonProperty(PropertyName = "musicbrainzalbumartistid")]
+        public string[] MusicBrainzAlbumArtistId { get; set; }
 
         [JsonProperty(PropertyName = "mpaa")]
         public string Mpaa { get; set; }

@@ -110,7 +110,7 @@ namespace Xbmc.Core.Commands
                                  Parameters = new PlayerParameters { PlayerId = playerId }
                              };
 
-            await _request.SendRequestAsync<BasicResponseMessage<string>>(method);
+            await _request.SendRequestAsync<BasicResponseMessage<PlayerSpeed>>(method);
         }
 
         /// <summary>Seek through the playing item.</summary>
