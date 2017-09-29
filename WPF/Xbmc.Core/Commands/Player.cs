@@ -87,18 +87,24 @@ namespace Xbmc.Core.Commands
         /// <summary>Start playback of either the playlist with the given ID, a slideshow with the pictures from the given directory or a single file or an item from the database.</summary>
         public async Task<string> OpenAsync(int? songId = null, int? movieId = null, int? episodeId = null)
         {
-            var method = new ParameteredMethodMessage<OpenParameters<PlaylistItem>>
-                {
-                    Method = "Player.Open",
-                    Parameters = new OpenParameters<PlaylistItem>
-                        {
-                            Item = new PlaylistItem { SongId = songId, MovieId = movieId, EpisodeId = episodeId },
-                            Options = new OpenOptions {  Repeat = PlayerRepeat.Off.ToString().ToLowerInvariant() }
-                        }
-                };
+            return await OpenAsync(new PlaylistItem() { SongId= songId, MovieId = movieId, EpisodeId = episodeId });
+        }
 
-            var item = await _request.SendRequestAsync<BasicResponseMessage<string>>(method);
-            return item.Result;
+        /// <summary>Start playback of either the playlist with the given ID, a slideshow with the pictures from the given directory or a single file or an item from the database.</summary>
+        public async Task<string> OpenAsync(PlaylistItem item)
+        {
+            var method = new ParameteredMethodMessage<OpenParameters<PlaylistItem>>
+            {
+                Method = "Player.Open",
+                Parameters = new OpenParameters<PlaylistItem>
+                {
+                    Item = item,
+                    Options = new OpenOptions { Repeat = PlayerRepeat.Off.ToString().ToLowerInvariant() }
+                }
+            };
+
+            var response = await _request.SendRequestAsync<BasicResponseMessage<string>>(method);
+            return response.Result;
         }
 
         /// <summary>Pauses or unpause playback and returns the new state.</summary>
